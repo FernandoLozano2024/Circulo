@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Árbol de Permutaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            overflow: hidden;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        
+        #tree-container {
+            width: 100%;
+            height: 80vh;
+            /* Ajustamos la altura para dejar espacio para la barra de desplazamiento */
+            overflow: auto;
+            /* Activamos la barra de desplazamiento */
+        }
+        
+        svg {
+            border: 1px solid #ccc;
+        }
+        
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1px;
+        }
+        
+        .node text {
+            font: 8px sans-serif;
+        }
+        
+        .link {
+            fill: none;
+            stroke: red;
+            /* Cambio de color a rojo */
+            stroke-width: 0.5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Diagrama de Árbol de Permutaciones</h1>
+    <div id="tree-container">
+        <!-- El árbol de permutaciones se mostrará aquí -->
+        <svg id="tree-svg"></svg>
+    </div>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const numPersonas = parseInt(new URLSearchParams(window.location.search).get('numPersonas'));
+            if (numPersonas >= 1 && numPersonas <= 6) {
+                const svgWidth = numPersonas > 4 ? 8000 : numPersonas * 2000; // Ajustar el ancho del SVG según el número de personas
+                const svgHeight = numPersonas > 4 ? 6000 : numPersonas * 1500; // Ajustar la altura del SVG según el número de personas
+                const svg = d3.select("#tree-svg").attr("width", svgWidth).attr("height", svgHeight);
+
+                const treeData = generarArbol(numPersonas);
+                const treeLayout = d3.tree().size([svgWidth - 200, svgHeight - 200]);
+                const rootNode = d3.hierarchy(treeData);
+                treeLayout(rootNode);
+                const treeLinks = rootNode.links();
+                const treeNodes = rootNode.descendants();
+
+                svg.selectAll("path.link")
+                    .data(treeLinks)
+                    .enter().append("path")
+                    .attr("class", "link")
+                    .attr("d", d => `
+                        M${d.source.x},${d.source.y}
+                        L${d.target.x},${d.target.y}
+                    `);
+
+                const nodes = svg.selectAll("g.node")
+                    .data(treeNodes)
+                    .enter().append("g")
+                    .attr("class", "node")
+                    .attr("transform", d => `translate(${d.x},${d.y})`);
+
+                nodes.append("circle")
+                    .attr("r", 2);
+
+                nodes.append("text")
+                    .attr("dy", ".21em")
+                    .attr("y", d => d.children ? -5 : 5)
+                    .style("text-anchor", "middle")
+                    .text(d => d.data.name);
+            } else {
+                console.error("Número de personas fuera de rango (debe ser entre 1 y 6)");
+            }
+        });
+
+        function generarArbol(numPersonas) {
+            const letras = ['A', 'B', 'C', 'D', 'E', 'F']; // Lista de letras disponibles
+            const permutaciones = generarPermutaciones(letras.slice(0, numPersonas)); // Generar permutaciones de las letras según el número de personas
+            const treeData = {
+                name: 'Raíz',
+                children: []
+            }; // Nodo raíz del árbol
+
+            // Recorrer cada permutación y agregarla al árbol
+            permutaciones.forEach(perm => {
+                let currentNode = treeData; // Comenzar desde la raíz para cada permutación
+                perm.forEach(letra => {
+                    let existeNodo = false;
+                    // Verificar si el nodo ya existe en los hijos del nodo actual
+                    currentNode.children.forEach(child => {
+                        if (child.name === letra) {
+                            currentNode = child;
+                            existeNodo = true;
+                        }
+                    });
+                    // Si el nodo no existe, crearlo y agregarlo a los hijos del nodo actual
+                    if (!existeNodo) {
+                        const newNode = {
+                            name: letra,
+                            children: []
+                        };
+                        currentNode.children.push(newNode);
+                        currentNode = newNode;
+                    }
+                });
+            });
+
+            return treeData;
+        }
+
+        // Función para generar todas las permutaciones posibles de una lista dada
+        function generarPermutaciones(lista) {
+            if (lista.length === 1) return [lista];
+            const result = [];
+            for (let i = 0; i < lista.length; i++) {
+                const current = lista[i];
+                const remaining = lista.slice(0, i).concat(lista.slice(i + 1));
+                const remainingPerms = generarPermutaciones(remaining);
+                for (let perm of remainingPerms) {
+                    result.push([current].concat(perm));
+                }
+            }
+            return result;
+        }
+    </script>
+</body>
+
+</html>

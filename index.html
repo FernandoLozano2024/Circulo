@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permutaciones Circulares</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Permutaciones Circulares</h1>
+        <label for="numPersonas">Número de personas (1-6):</label>
+        <input type="number" id="numPersonas" min="1" max="6">
+        <button onclick="calcularPermutaciones()">Calcular</button>
+        <a href="#" onclick="generarDiagrama()">Ver Diagrama de Árbol</a>
+        <button onclick="mostrarPermutaciones()">Mostrar Permutaciones</button>
+        <div class="circles-container">
+            <div class="circle-container" id="roulette"></div>
+        </div>
+        <p id="resultado"></p>
+        <div id="permutaciones"></div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

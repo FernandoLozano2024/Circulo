@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    overflow-y: auto;
+    /* Permitir desplazamiento vertical */
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 100vw;
+    /* Ancho máximo igual al ancho del viewport */
+    margin: 20px auto;
+    /* Añadir margen superior e inferior y centrar horizontalmente */
+}
+
+h1 {
+    color: #333;
+}
+
+p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+input[type="number"],
+button {
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 1em;
+}
+
+.circles-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.circle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+.circle .person {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    text-align: center;
+    font-size: 1em;
+    color: #333;
+}
+
+#permutaciones {
+    margin-top: 50px;
+    /* Aumentar el margen superior para separar las permutaciones del borde superior de la página */
+    font-size: 1em;
+    color: #333;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    /* Para que las permutaciones se envuelvan en múltiples líneas */
+    justify-content: center;
+    /* Para centrar las permutaciones horizontalmente */
+}
+
+.pagina-permutaciones {
+    margin-top: 50px;
+    border-top: 2px solid #ccc;
+    padding-top: 20px;
+}
+
+.perm-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    /* Aumentar el margen entre cada contenedor de permutación */
+    padding: 10px;
+    /* Agregar un poco de espacio interno */
+    border: 1px solid #ccc;
+    /* Agregar un borde para mayor separación visual */
+    border-radius: 5px;
+    /* Añadir bordes redondeados */
+    text-align: center;
+}
+
+.perm-container strong {
+    margin-bottom: 5px;
+    /* Añadir espacio entre el número de permutación y el círculo */
+}
